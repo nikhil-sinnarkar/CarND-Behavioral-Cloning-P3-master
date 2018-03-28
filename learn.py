@@ -24,7 +24,7 @@ with open('./data/driving_log.csv') as csvfile:
 img_path = './data/IMG/'+csv_data[0][0].split('/')[-1]
 img = cv2.imread(img_path)
 img = img[60:140,:]
-img = cv2.resize(img, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
+img = cv2.resize(img, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
 np.array(img)
 print("Image shape passed to Keras Input is ",img.shape)
 
@@ -72,7 +72,7 @@ model = Sequential()
 model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=img.shape))
 model.add(Convolution2D(24, 5, 5, input_shape=img.shape, activation="relu"))
 model.add(Convolution2D(36, 5, 5, activation="relu"))
-model.add(Convolution2D(48, 5, 5, activation="relu"))
+# model.add(Convolution2D(48, 5, 5, activation="relu"))
 model.add(Flatten())
 model.add(Dense(100))
 model.add(Dense(50))
@@ -80,5 +80,5 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit_generator(gen_instance, samples_per_epoch=len(train_data), verbose=1, validation_data=validation_generator, nb_val_samples=len(validation_data), nb_epoch=3)
+model.fit_generator(gen_instance, samples_per_epoch=len(train_data)*2, verbose=1, validation_data=validation_generator, nb_val_samples=len(validation_data), nb_epoch=3)
 model.save('drive_model.h5')
