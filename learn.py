@@ -61,6 +61,7 @@ validation_generator = generator(validation_data, batch_size=32)
 		
 model = Sequential()
 model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=X_train[0].shape))
+print(X_train.shape)
 model.add(Convolution2D(24, 5, 5, input_shape=X_train[0].shape, activation="relu"))
 model.add(Convolution2D(36, 5, 5, activation="relu"))
 model.add(Convolution2D(48, 5, 5, activation="relu"))
