@@ -14,7 +14,7 @@ Y_train = []
 csv_data = []
 
 # read the data in csv file
-with open('./Udacity_data/driving_log.csv') as csvfile:
+with open('./data/driving_log.csv') as csvfile:
 	reader = csv.reader(csvfile)
 	next(reader, None) # skip the header
 	for line in reader:
@@ -35,11 +35,11 @@ def generator(csv_data, batch_size = 32):
 			steering = []
 			
 			for data in batch_data:
-				image_path = './Udacity_data/IMG/'+data[0].split('/')[-1]
+				image_path = './data/IMG/'+data[0].split('/')[-1]
 				center_image = cv2.imread(image_path)
 				center_image = cv2.resize(center_image, (115,40))
 				# center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
-				# center_image = center_image[30:70,:]
+				center_image = center_image[50:160,:]
 				center_angle = float(data[3])
 				images.append(center_image)
 				steering.append(center_angle)
