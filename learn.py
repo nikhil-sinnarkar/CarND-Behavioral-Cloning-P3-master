@@ -12,6 +12,8 @@ from keras.layers import Lambda
 X_train = []
 Y_train = []
 csv_data = []
+left_correction = 0.25
+right_correction = -0.25
 
 # read the data in csv file
 with open('./data/driving_log.csv') as csvfile:
@@ -20,17 +22,26 @@ with open('./data/driving_log.csv') as csvfile:
 	for line in reader:
 		csv_data.append(line)
 
+def preprocess(image):
+	# change the color space from BGR to RGB
+	# crop the image and downscale them
+	image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+	image = image[60:140,:]
+	image = cv2.resize(image, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
+	return image
+
+
 # calculate the shape of images after preprocessing to pass the shape to Keras Convolutional layer
 img_path = './data/IMG/'+csv_data[0][0].split('/')[-1]
 img = cv2.imread(img_path)
-img = img[60:140,:]
-img = cv2.resize(img, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
+img = preprocess(img)
 np.array(img)
 print("Image shape passed to Keras Input is ",img.shape)
 
 from sklearn.model_selection import train_test_split
 train_data, validation_data = train_test_split(csv_data, test_size=0.2)
-	
+
+
 def generator(csv_data, batch_size = 32):
 	data_length = len(csv_data)
 	while 1:
@@ -45,21 +56,24 @@ def generator(csv_data, batch_size = 32):
 			for data in batch_data:
 				image_path = './data/IMG/'+data[0].split('/')[-1]
 				center_image = cv2.imread(image_path)
-				# center_image = cv2.resize(center_image, (115,40))
-				# center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
-				center_image = center_image[60:140,:]
-				center_image = cv2.resize(center_image, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
+				center_image = preprocess(center_image)
 				center_angle = float(data[3])
 				images.append(center_image)
 				steering.append(center_angle)
 				
+				image_path = './data/IMG/'+data[1].split('/')[-1]
+				left_image = cv2.imread(image_path)
+				left_image = preprocess(left_image)
+				left_angle = float(data[3]) + left_correction
+				images.append(left_image)
+				steering.append(left_angle)
+
 				flipped_image = cv2.flip(center_image, 1)
 				flipped_angle = -float(data[3])
 				images.append(flipped_image)
 				steering.append(flipped_angle)				
 			
-			# preprocess the images here
-			
+						
 			X_train = np.array(images)
 			Y_train = np.array(steering)
 			yield sklearn.utils.shuffle(X_train, Y_train)
@@ -70,11 +84,11 @@ validation_generator = generator(validation_data, batch_size=32)
 		
 model = Sequential()
 model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=img.shape))
-model.add(Convolution2D(24, 5, 5, input_shape=img.shape, activation="relu"))
-model.add(Convolution2D(36, 5, 5, activation="relu"))
+model.add(Convolution2D(24, 5, 5, subsample = (2,2), input_shape=img.shape, activation="relu"))
+model.add(Convolution2D(36, 5, 5, subsample = (2,2), activation="relu"))
 # model.add(Convolution2D(48, 5, 5, activation="relu"))
 model.add(Flatten())
-model.add(Dense(100))
+# model.add(Dense(100))
 model.add(Dense(50))
 model.add(Dense(10))
 model.add(Dense(1))

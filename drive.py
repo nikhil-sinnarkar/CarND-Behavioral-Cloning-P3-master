@@ -12,6 +12,8 @@ from PIL import Image
 from flask import Flask
 from io import BytesIO
 
+import cv2
+
 from keras.models import load_model
 import h5py
 from keras import __version__ as keras_version
@@ -44,7 +46,7 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 3
 controller.set_desired(set_speed)
 
 
@@ -61,11 +63,15 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
-        steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
+        # preprocess the captured frame (this should be the same as learn.py)
+        image_array = image_array[60:140,:]	
+        image_array = cv2.resize(image_array, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
+
+        steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
         throttle = controller.update(float(speed))
 
-        print(steering_angle, throttle)
+        print("angle = ",steering_angle, throttle)
         send_control(steering_angle, throttle)
 
         # save frame
