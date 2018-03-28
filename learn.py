@@ -37,7 +37,7 @@ def generator(csv_data, batch_size = 32):
 			for data in batch_data:
 				image_path = './data/IMG/'+data[0].split('/')[-1]
 				center_image = cv2.imread(image_path)
-				center_image = cv2.resize(center_image, (115,40))
+				# center_image = cv2.resize(center_image, (115,40))
 				# center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
 				center_image = center_image[50:160,:]
 				center_angle = float(data[3])
@@ -60,8 +60,8 @@ gen_instance = generator(csv_data)
 validation_generator = generator(validation_data, batch_size=32)
 		
 model = Sequential()
-model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(40,115,3)))
-model.add(Convolution2D(24, 5, 5, input_shape=(40,115,3), activation="relu"))
+model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=X_train[0].shape)
+model.add(Convolution2D(24, 5, 5, input_shape=X_train[0].shape, activation="relu"))
 model.add(Convolution2D(36, 5, 5, activation="relu"))
 model.add(Convolution2D(48, 5, 5, activation="relu"))
 model.add(Flatten())
