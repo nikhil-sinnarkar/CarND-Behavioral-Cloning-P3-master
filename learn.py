@@ -68,6 +68,13 @@ def generator(csv_data, batch_size = 32):
 				images.append(left_image)
 				steering.append(left_angle)
 
+				image_path = './data/IMG/'+data[2].split('/')[-1]
+				right_image = cv2.imread(image_path)
+				right_image = preprocess(right_image)
+				right_angle = float(data[3]) + right_correction
+				images.append(right_image)
+				steering.append(right_angle)
+
 				flipped_image = cv2.flip(center_image, 1)
 				flipped_angle = -float(data[3])
 				images.append(flipped_image)
