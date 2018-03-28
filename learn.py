@@ -20,6 +20,14 @@ with open('./data/driving_log.csv') as csvfile:
 	for line in reader:
 		csv_data.append(line)
 
+# calculate the shape of images after preprocessing to pass the shape to Keras Convolutional layer
+img_path = './data/IMG/'+csv_data[0][0].split('/')[-1]
+img = cv2.imread(img_path)
+img = img[60:140,:]
+img = cv2.resize(img, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
+np.array(img)
+print("Image shape passed to Keras Input is ",img.shape)
+
 from sklearn.model_selection import train_test_split
 train_data, validation_data = train_test_split(csv_data, test_size=0.2)
 	
@@ -39,7 +47,8 @@ def generator(csv_data, batch_size = 32):
 				center_image = cv2.imread(image_path)
 				# center_image = cv2.resize(center_image, (115,40))
 				# center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
-				center_image = center_image[50:160,:]
+				center_image = center_image[60:140,:]
+				center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
 				center_angle = float(data[3])
 				images.append(center_image)
 				steering.append(center_angle)
@@ -60,9 +69,8 @@ gen_instance = generator(csv_data)
 validation_generator = generator(validation_data, batch_size=32)
 		
 model = Sequential()
-model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=X_train[0].shape))
-print(X_train.shape)
-model.add(Convolution2D(24, 5, 5, input_shape=X_train[0].shape, activation="relu"))
+model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=img.shape))
+model.add(Convolution2D(24, 5, 5, input_shape=img.shape, activation="relu"))
 model.add(Convolution2D(36, 5, 5, activation="relu"))
 model.add(Convolution2D(48, 5, 5, activation="relu"))
 model.add(Flatten())
