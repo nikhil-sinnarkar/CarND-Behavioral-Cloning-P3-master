@@ -48,7 +48,7 @@ def generator(csv_data, batch_size = 32):
 				# center_image = cv2.resize(center_image, (115,40))
 				# center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
 				center_image = center_image[60:140,:]
-				center_image = cv2.resize(center_image, None, fx=0.36, fy=0.5, interpolation = cv2.INTER_CUBIC)
+				center_image = cv2.resize(center_image, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
 				center_angle = float(data[3])
 				images.append(center_image)
 				steering.append(center_angle)
