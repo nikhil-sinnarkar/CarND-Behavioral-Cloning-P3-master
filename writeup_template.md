@@ -123,9 +123,16 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 
 For trainig my model I used the data set provided by Udacity. I used some preprocessing and data augmentation techniques on this data set. 
 * The size of images in the data set was 160x320x3. One sample image is shown below.
-![image1](./writeup_images/image1.jpg)
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+	![image1](./writeup_images/image1.jpg)
+
+* I cropped out some of the upper and lower portion of the image as it was not useful for the training process. The cropped image is shown below.
+
+	![cropped_image](./writeup_images/cropped_image.jpg)
+
+* After cropping the images I flipped them and added left and right camera images to the data set.
+
+	![image2](./writeup_images/image2.jpg)
 
 ![alt text][image3]
 ![alt text][image4]
