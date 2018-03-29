@@ -78,6 +78,7 @@ I trained and validated the model on different data sets to ensure that the mode
 #### 3. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually.
+Number of epochs was 3. Loss function which I used was MSE (Mean Squared error) as this is suitable for regression problem. I used 80-20 split for training and validation data set.
 
 #### 4. Appropriate training data
 
