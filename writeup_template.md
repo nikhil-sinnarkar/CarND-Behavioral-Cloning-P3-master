@@ -149,4 +149,4 @@ I finally randomly shuffled the data set and fed it to the model. I kept 20% of 
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. I trined the model for 3 epochs as after this there wasn't any considerable reduction in the loss and the model performance was good in the simulator. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
-I ran the model in the simulator and recorded the video which you can watch [here]:(https://github.com/nikhil-sinnarkar/CarND-Behavioral-Cloning-P3-master/blob/master/video.mp4).
+I ran the model in the simulator and recorded the video which you can watch [here](https://github.com/nikhil-sinnarkar/CarND-Behavioral-Cloning-P3-master/blob/master/video.mp4).
