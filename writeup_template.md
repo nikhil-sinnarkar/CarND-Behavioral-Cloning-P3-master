@@ -1,8 +1,6 @@
 # **Behavioral Cloning** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+## Writeup
 
 ---
 
@@ -16,7 +14,6 @@ The goals / steps of this project are the following:
 * Summarize the results with a written report
 
 
-[//]: # (Image References)
 
 [image1]: ./examples/placeholder.png "Model Visualization"
 [image2]: ./examples/placeholder.png "Grayscaling"
@@ -42,7 +39,7 @@ My project includes the following files:
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
-```sh
+```
 python drive.py model.h5
 ```
 
@@ -52,11 +49,21 @@ The model.py file contains the code for training and saving the convolution neur
 
 ### Model Architecture and Training Strategy
 
-#### 1. An appropriate model architecture has been employed
+#### 1. Model architecture
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model architecture consist of 2 Convolutional layer followed by 3 fully connected layer. The kernel size for both the Convolutional layer is 5x5 and filter depth is 24 and 36. The number of neurons for the three fully connected layers are 50, 10 and 1.
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+```
+model.add(Convolution2D(24, 5, 5, subsample = (2,2), input_shape=img.shape, activation="relu"))
+model.add(Convolution2D(36, 5, 5, subsample = (2,2), activation="relu"))
+model.add(Flatten())
+model.add(Dense(50))
+model.add(Dense(10))
+model.add(Dense(1))
+```
+
+I have used RELU activations to make the model nonlinear. Also I used a Keras Lambda layer to normalize the data before feeding it to the Convolutional layer.  
+
 
 #### 2. Attempts to reduce overfitting in the model
 
