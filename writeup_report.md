@@ -107,7 +107,7 @@ Now whenever the center camera sees an image which is similar to the image from 
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes:
+The final model architecture (model.py lines 95-100) consisted of a convolution neural network with the following layers and layer sizes:
 
 | Layer         		|     Description	        											| 
 |:---------------------:|:---------------------------------------------------------------------:| 
@@ -116,7 +116,7 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 | Flatten				|   																	|
 | Fully connected		| outputs 50															|
 | Fully connected		| outputs 10															|
-| Fully connected		| outputs 1																|
+| Fully connected		| output 1																|
 
 
 
