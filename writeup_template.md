@@ -134,22 +134,19 @@ For trainig my model I used the data set provided by Udacity. I used some prepro
 
 	![image2](./writeup_images/image2.jpg)
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
+* When flipping the images I also change the sign of steering angle (+ to - & - to +). This data is equivalent to drive the car in opposite direction on the track.
 
-Then I repeated this process on track two in order to get more data points.
+* I also scaled down the images before feeding it to the Model.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+```
+image = cv2.resize(image, None, fx=0.25, fy=0.4, interpolation = cv2.INTER_CUBIC)
+```
 
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+After the augmentation process I had 32,144 data points.
 
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+I finally randomly shuffled the data set and fed it to the model. I kept 20% of the initial data into a validation set. 
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. I trined the model for 3 epochs as after this there wasn't any considerable reduction in the loss and the model performance was good in the simulator. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+
+I ran the model in the simulator and recorded the video which you can watch [here]:(https://github.com/nikhil-sinnarkar/CarND-Behavioral-Cloning-P3-master/blob/master/video.mp4).
