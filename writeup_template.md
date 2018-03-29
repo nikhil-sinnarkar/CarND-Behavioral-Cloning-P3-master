@@ -121,9 +121,9 @@ The final model architecture (model.py lines 18-24) consisted of a convolution n
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
+For trainig my model I used the data set provided by Udacity. I used some preprocessing and data augmentation techniques on this data set. 
+* The size of images in the data set was 160x320x3. One sample image is shown below.
+![image1](./writeup_images/image1.jpg)
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
